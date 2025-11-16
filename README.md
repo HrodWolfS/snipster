@@ -1,4 +1,4 @@
-# Snipster ✂️
+# Snipster ✨
 
 [![CI](https://github.com/HrodWolfS/snipster/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/HrodWolfS/snipster/actions/workflows/ci.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/HrodWolfS/snipster)](https://goreportcard.com/report/github.com/HrodWolfS/snipster)
@@ -11,17 +11,21 @@ Snipster est un TUI pour organiser, rechercher et prévisualiser vos snippets de
 
 ---
 
+## 🖼️ Démos visuelles
+
+![Explorateur des snippets](demo-1.png)
+
+![Recherche instantanée et fuzzy](demo-2.png)
+
+---
+
 ## ✨ Fonctionnalités
 
-- 🎨 Interface TUI nette – Mise en page en cadre principal avec header, body en 2 colonnes (explorateur/aperçu) et footer.
-- 📂 Explorateur dossiers/fichiers – Icônes 📁/📄, navigation par dossiers (gauche/droite), breadcrumbs dans le header.
-- 🔎 Recherche rapide – Touche `/` pour activer, « contains » par défaut + bascule fuzzy (`f`), highlight des matches dans la liste et l’aperçu, gouttière « ▶ » sur lignes correspondantes.
-- 🧠 Aperçu code – Header (titre/catégorie/langage/tags) et coloration simple par regex (js/ts/go/sql).
-- ✏️ CRUD via modals – `n` créer, `e` éditer, `d` supprimer (confirmation), `Ctrl+S` sauvegarder, `Enter` dans contenu ajoute une ligne (pas de submit).
-- 📋 Presse‑papiers – `Enter` copie le contenu du snippet courant.
-- 🖊️ Édition externe – `E` ouvre le JSON dans `$VISUAL`/`$EDITOR` (sinon `nano`), puis reload.
-- 🧵 Thème et bordures – Fond transparent, bordures visibles; `t` cycle la couleur (cyan/rose/vert/orange).
-- 🖥️ Écran d’accueil – ASCII « SNIPSTER » (orange), centré, avec cadre.
+- Interface TUI claire en deux colonnes (explorateur + aperçu)
+- Navigation dossiers/snippets avec icônes 📁/📄, breadcrumbs et copier-coller instantané
+- Recherche instantanée (`/`) avec bascule fuzzy (`f`) et surlignage des matches
+- CRUD via modals (`n`, `e`, `d`) + édition externe (`E`)
+- Copie du snippet sur `Enter`, thème cyclable (`t`) et écran d’accueil ASCII
 
 ---
 
@@ -33,7 +37,12 @@ Snipster est un TUI pour organiser, rechercher et prévisualiser vos snippets de
 go install github.com/HrodWolfS/snipster/cmd/snip@latest
 ```
 
-Le binaire `snip` sera installé dans `$GOPATH/bin` (souvent `~/go/bin`).
+Le binaire `snip` est déposé dans `$GOPATH/bin` (souvent `~/go/bin`). Ajoutez ce dossier au `PATH` si nécessaire :
+
+```bash
+# ---- SNIPSTER ----
+export PATH="$(go env GOPATH)/bin:$PATH"   # à placer dans ~/.zshrc ou ~/.bashrc
+```
 
 ### Installation manuelle
 
@@ -124,29 +133,6 @@ Exemple de fichier JSON:
   "path": "/Users/you/.snipster/snippets/backend/db/fetch-users.json"
 }
 ```
-
----
-
-## 🎨 Aperçu (ASCII)
-
-```
-┌──────────────────────────────────────────────────────────────────────────┐
-│                                SNIPSTER                                  │
-│                        Press any key to continue…                        │
-└──────────────────────────────────────────────────────────────────────────┘
-
-┌──────────────────────────────────────────────────────────────────────────┐
-│ /backend/db                                                              │
-│ ┌──────────────┬───────────────────────────────────────────────────────┐ │
-│ │ 📁 queries/  │  -- Fetch users (sql)                                 │ │
-│ │ 📄 users.json│  SELECT * FROM users WHERE ...                        │ │
-│ │ 📄 auth.json │▶ SELECT id, email FROM auth ...                       │ │
-│ └──────────────┴───────────────────────────────────────────────────────┘ │
-│  Search: use                         • t border • / search • q quit      │
-└──────────────────────────────────────────────────────────────────────────┘
-```
-
----
 
 ## 🛠️ Développement
 

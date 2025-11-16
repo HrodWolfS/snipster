@@ -152,7 +152,7 @@ Exemple de fichier JSON:
 
 ### Prérequis
 
-- Go 1.22 ou supérieur
+- Go 1.23 ou supérieur
 - Git
 
 ### Cloner et compiler

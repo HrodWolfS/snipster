@@ -1,0 +1,86 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - goos: linux
+            goarch: amd64
+          - goos: linux
+            goarch: arm64
+          - goos: darwin
+            goarch: amd64
+          - goos: darwin
+            goarch: arm64
+          - goos: windows
+            goarch: amd64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Build binary
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          BIN_BASENAME="snip-${GOOS}-${GOARCH}"
+          EXT=""
+          ARCHIVE_EXT="tar.gz"
+
+          if [ "${GOOS}" = "windows" ]; then
+            EXT=".exe"
+            ARCHIVE_EXT="zip"
+          fi
+
+          GOOS=$GOOS GOARCH=$GOARCH go build -ldflags "-s -w" -o "dist/${BIN_BASENAME}${EXT}" ./cmd/snip
+
+          pushd dist >/dev/null
+          if [ "${ARCHIVE_EXT}" = "zip" ]; then
+            zip "${BIN_BASENAME}.zip" "${BIN_BASENAME}${EXT}"
+            rm "${BIN_BASENAME}${EXT}"
+          else
+            tar -czf "${BIN_BASENAME}.tar.gz" "${BIN_BASENAME}${EXT}"
+            rm "${BIN_BASENAME}${EXT}"
+          fi
+          popd >/dev/null
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: snip-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: dist/snip-${{ matrix.goos }}-${{ matrix.goarch }}.*
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/**/*.*

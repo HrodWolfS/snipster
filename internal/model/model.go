@@ -13,8 +13,8 @@ import (
     "github.com/atotto/clipboard"
     fuzzy "github.com/sahilm/fuzzy"
 
-    "snipster/internal/snippets"
-    "snipster/internal/ui"
+    "github.com/HrodWolfS/snipster/internal/snippets"
+    "github.com/HrodWolfS/snipster/internal/ui"
 )
 
 type AppState int

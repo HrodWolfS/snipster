@@ -12,8 +12,9 @@ import (
 
     tea "github.com/charmbracelet/bubbletea"
 
-    "snipster/internal/model"
-    "snipster/internal/snippets"
+    "github.com/HrodWolfS/snipster/internal/model"
+    "github.com/HrodWolfS/snipster/internal/snippets"
+    "github.com/HrodWolfS/snipster/internal/version"
 )
 
 func ensureDataDir() (string, error) {
@@ -43,6 +44,20 @@ func ensureDataDir() (string, error) {
 }
 
 func main() {
+    // Lightweight handling of version flags before starting the TUI
+    for _, a := range os.Args[1:] {
+        if a == "--version" || a == "-version" || a == "-v" || a == "version" {
+            prog := filepath.Base(os.Args[0])
+            v := version.Version
+            extra := ""
+            if version.Commit != "" || version.Date != "" {
+                extra = fmt.Sprintf(" (%s %s)", version.Commit, version.Date)
+            }
+            fmt.Printf("%s %s%s\n", prog, v, extra)
+            return
+        }
+    }
+
     dataDir, err := ensureDataDir()
     if err != nil {
         log.Fatalf("failed to ensure data dir: %v", err)

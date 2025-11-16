@@ -7,8 +7,8 @@ import (
 
     tea "github.com/charmbracelet/bubbletea"
 
-    "snipster/internal/snippets"
-    "snipster/internal/ui"
+    "github.com/HrodWolfS/snipster/internal/snippets"
+    "github.com/HrodWolfS/snipster/internal/ui"
 )
 
 func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {

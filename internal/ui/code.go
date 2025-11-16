@@ -5,7 +5,7 @@ import (
     "regexp"
     "strings"
 
-    "snipster/internal/snippets"
+    "github.com/HrodWolfS/snipster/internal/snippets"
 )
 
 // RenderCode renders a snippet with a small header and a styled code block

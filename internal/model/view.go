@@ -6,7 +6,7 @@ import (
 
 	"github.com/charmbracelet/lipgloss"
 
-	"snipster/internal/ui"
+	"github.com/HrodWolfS/snipster/internal/ui"
 )
 
 // ASCII title for the welcome screen. Keep spacing exactly as-is.

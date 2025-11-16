@@ -1,6 +1,6 @@
-module snipster
+module github.com/HrodWolfS/snipster
 
-go 1.24.0
+go 1.22
 
 require (
 	github.com/atotto/clipboard v0.1.4

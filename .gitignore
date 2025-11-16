@@ -13,8 +13,9 @@
 /*.test
 /*.out
 
-# Built binary at repo root
+# Built binaries at repo root
 /snipster
+/snip
 
 # Common build output folders
 /bin/

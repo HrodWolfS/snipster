@@ -1,0 +1,32 @@
+# OS junk
+/.DS_Store
+
+# Local runtime data (do not publish personal snippets)
+/.snipster/
+
+# Go build artifacts
+/*.exe
+/*.exe~
+/*.dll
+/*.so
+/*.dylib
+/*.test
+/*.out
+
+# Built binary at repo root
+/snipster
+
+# Common build output folders
+/bin/
+/dist/
+/build/
+
+# Env files
+/.env
+/.env.*
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo

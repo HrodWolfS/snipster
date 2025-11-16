@@ -1,11 +1,9 @@
 # Snipster ✂️
 
 [![CI](https://github.com/HrodWolfS/snipster/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/HrodWolfS/snipster/actions/workflows/ci.yml)
-[![Release](https://github.com/HrodWolfS/snipster/actions/workflows/release.yml/badge.svg)](https://github.com/HrodWolfS/snipster/actions/workflows/release.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/HrodWolfS/snipster)](https://goreportcard.com/report/github.com/HrodWolfS/snipster)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Go Version](https://img.shields.io/github/go-mod/go-version/HrodWolfS/snipster)](go.mod)
-[![Latest Release](https://img.shields.io/github/v/release/HrodWolfS/snipster)](https://github.com/HrodWolfS/snipster/releases/latest)
 
 > Un gestionnaire de snippets local, élégant et rapide pour le terminal, construit avec Go et Bubble Tea.
 

@@ -12,11 +12,18 @@ func NewList() list.Model {
 	del.Styles.SelectedDesc = del.Styles.SelectedDesc.
 		Foreground(Theme.Accent2)
 
+	// Set fixed height for items to ensure proper viewport calculation
+	del.SetHeight(2)
+	del.SetSpacing(0)
+
 	l := list.New([]list.Item{}, del, 30, 10)
 	l.SetShowStatusBar(false)
 	l.SetShowHelp(false)
 	l.SetShowFilter(false)
-	l.SetShowPagination(false)
+	// Keep pagination enabled for proper scrolling behavior
+	l.SetShowPagination(true)
+	// Customize pagination style to be subtle
+	l.Styles.PaginationStyle = Theme.Footer
 	l.DisableQuitKeybindings()
 	return l
 }

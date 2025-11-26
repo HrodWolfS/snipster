@@ -1,5 +1,6 @@
 # Snipster ✨
 
+[![Release](https://img.shields.io/github/v/release/HrodWolfS/snipster)](https://github.com/HrodWolfS/snipster/releases)
 [![CI](https://github.com/HrodWolfS/snipster/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/HrodWolfS/snipster/actions/workflows/ci.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/HrodWolfS/snipster)](https://goreportcard.com/report/github.com/HrodWolfS/snipster)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -103,11 +104,13 @@ SNIPSTER_DIR="$HOME/mes-snippets" snip
 | `f`             | Basculer recherche fuzzy        |
 | `Esc`           | Quitter/vider la recherche      |
 | `Enter`         | Copier le contenu du snippet    |
+| `y`             | Copier le chemin du fichier     |
 | `n`             | Nouveau snippet (modal)         |
 | `e`             | Éditer (modal)                  |
 | `d`             | Supprimer (confirmation)        |
-| `E`             | Ouvrir dans l’éditeur externe   |
+| `E`             | Ouvrir dans l'éditeur externe   |
 | `t`             | Changer la couleur des bordures |
+| `?`             | Afficher l'aide (raccourcis)    |
 | `q`             | Quitter                         |
 
 ---
@@ -208,7 +211,9 @@ Ouvre une issue: https://github.com/HrodWolfS/snipster/issues
 
 ---
 
-## 📝 Roadmap (extrait)
+## 📝 Roadmap
+
+### ✅ Implémenté
 
 - [x] Explorateur dossiers/fichiers avec breadcrumbs
 - [x] Recherche `/` (contains) + fuzzy toggle `f`
@@ -216,11 +221,19 @@ Ouvre une issue: https://github.com/HrodWolfS/snipster/issues
 - [x] CRUD via modals + édition externe `E`
 - [x] Copie au presse‑papiers (`Enter`)
 - [x] Thème: cycle couleur de bordures `t`
+
+### ✅ Implémenté (suite)
+
+- [x] Help modal (touche `?`) pour afficher tous les raccourcis
+- [x] Copy path (touche `y`) pour copier le chemin du fichier JSON
+
+### 🔮 Fonctionnalités futures
+
+- [ ] Bookmarks/Favoris (touche `b`) pour snippets fréquents
+- [ ] Récents (Ctrl+R) pour accès rapide
+- [ ] Tags avancés (filtrage, nuage de tags)
 - [ ] Export / import de snippets
 - [ ] Templates de snippets
-- [ ] Tags avancés (filtrage, nuage de tags)
-- [ ] Synchronisation (iCloud/Dropbox)
-- [ ] Partage (gist) / intégrations
 - [ ] Distribution Homebrew (tap)
 
 ---

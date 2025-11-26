@@ -55,16 +55,19 @@ func NewTheme() ThemeStyles {
 		Padding(1, 2)
 
 	// Transparent background for sidebar container.
+	// Align top to prevent content from shifting upward when overflowing
 	sidebar := lipgloss.NewStyle().
 		Padding(0, 1).
 		Border(lipgloss.RoundedBorder()).
-		BorderForeground(accent2)
+		BorderForeground(accent2).
+		AlignVertical(lipgloss.Top)
 
 	// Transparent background for preview container.
 	preview := lipgloss.NewStyle().
 		Padding(0, 1).
 		Border(lipgloss.RoundedBorder()).
-		BorderForeground(accent2)
+		BorderForeground(accent2).
+		AlignVertical(lipgloss.Top)
 
 	return ThemeStyles{
 		Bg: bg, Accent: accent, Accent2: accent2, SidebarBg: side, PreviewBg: prev, Muted: muted, Error: errc,
@@ -99,10 +102,10 @@ var (
 
 // Color palette for border accent toggling
 var BorderColors = []lipgloss.Color{
-	lipgloss.Color("#5BCEFA"), // cyan
-	lipgloss.Color("#F5A9B8"), // pink
-	lipgloss.Color("#B5E853"), // green
-	lipgloss.Color("#FFCC66"), // orange
+	lipgloss.Color("#00D9FF"), // cyan (plus vif)
+	lipgloss.Color("#FF1493"), // pink (deep pink)
+	lipgloss.Color("#00FF00"), // green (lime vif)
+	lipgloss.Color("#FF8700"), // orange (déjà vif)
 }
 
 // SetBorderColor updates only border foreground colors across frame and containers.

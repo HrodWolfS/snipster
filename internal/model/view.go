@@ -25,12 +25,22 @@ func (m Model) View() string {
 	switch m.State {
 	case StateWelcome:
 		return m.viewWelcome()
+	case StateHelp:
+		base := m.viewLayout()
+		modal := m.viewHelp()
+		return m.overlayModal(base, modal)
 	case StateCreate:
-		return m.viewLayout() + "\n" + m.viewCreateEdit("Create")
+		base := m.viewLayout()
+		modal := m.viewCreateEdit("Create")
+		return m.overlayModal(base, modal)
 	case StateEdit:
-		return m.viewLayout() + "\n" + m.viewCreateEdit("Edit")
+		base := m.viewLayout()
+		modal := m.viewCreateEdit("Edit")
+		return m.overlayModal(base, modal)
 	case StateConfirmDelete:
-		return m.viewLayout() + "\n" + m.viewConfirmDelete()
+		base := m.viewLayout()
+		modal := m.viewConfirmDelete()
+		return m.overlayModal(base, modal)
 	default:
 		return m.viewLayout()
 	}
@@ -138,8 +148,9 @@ func (m Model) viewLayout() string {
 	// inside the same bordered container.
 	sidebarContent := m.List.View()
 	previewInner := m.Preview.View() // already includes header+code text (no borders)
+	// Do NOT apply Height() to sidebar - let the list manage its own viewport
 	sidebarView := ui.Theme.Sidebar.
-		Width(sbContentW).Height(paneContentH).
+		Width(sbContentW).
 		Render(sidebarContent)
 	previewView := ui.Theme.Preview.
 		Width(pvContentW).Height(paneContentH).
@@ -148,7 +159,7 @@ func (m Model) viewLayout() string {
 	body := lipgloss.JoinHorizontal(lipgloss.Top, sidebarView, gapStr, previewView)
 
 	// Footer: key help
-	help := ui.Theme.Footer.Render("/ focus  j/k,↑/↓ navigate  enter copy  n new  e edit  d delete  q quit")
+	help := ui.Theme.Footer.Render("/ search  ? help  j/k,↑/↓ navigate  enter copy  n new  e edit  d delete  q quit")
 
 	inner := lipgloss.JoinVertical(lipgloss.Left, head, body, help)
 	return ui.Theme.Frame.Render(inner)
@@ -195,6 +206,51 @@ func (m Model) viewConfirmDelete() string {
 		"\n\n" + name +
 		"\n\n" + ui.StatusStyle.Render("y: yes, n/esc: cancel")
 	return ui.ModalBorder.Render(msg)
+}
+
+func (m Model) viewHelp() string {
+	help := strings.Join([]string{
+		ui.TitleStyle.Render("Keyboard Shortcuts"),
+		"",
+		ui.Theme.Header.Render("Navigation"),
+		"  ↑↓ j k        Navigate through list",
+		"  → l           Enter folder",
+		"  ← h           Go to parent folder",
+		"",
+		ui.Theme.Header.Render("Search"),
+		"  /             Activate search bar",
+		"  f             Toggle fuzzy search",
+		"  Esc           Clear search / Exit modal",
+		"",
+		ui.Theme.Header.Render("Actions"),
+		"  Enter         Copy snippet content to clipboard",
+		"  y             Copy file path to clipboard",
+		"  n             Create new snippet",
+		"  e             Edit selected snippet",
+		"  d             Delete selected snippet",
+		"  E             Open snippet in external editor ($EDITOR)",
+		"",
+		ui.Theme.Header.Render("Interface"),
+		"  t             Cycle border theme colors",
+		"  ?             Toggle this help modal",
+		"  q             Quit application",
+		"",
+		ui.StatusStyle.Render("Press Esc, q, or ? to close this help"),
+	}, "\n")
+	return ui.ModalBorder.Render(help)
+}
+
+func (m Model) overlayModal(base, modal string) string {
+	// Place modal centered over the base layout
+	return lipgloss.Place(
+		m.Width,
+		m.Height,
+		lipgloss.Center,
+		lipgloss.Center,
+		modal,
+		lipgloss.WithWhitespaceChars("░"),
+		lipgloss.WithWhitespaceForeground(lipgloss.Color("#333333")),
+	)
 }
 
 func (m Model) headerStatus() string {

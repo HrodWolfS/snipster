@@ -106,6 +106,10 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 				m.Status = "Border color changed"
 				return m, nil
+			case "?":
+				// Open help modal
+				m.State = StateHelp
+				return m, nil
 			case "f":
 				// Toggle fuzzy search
 				m.Fuzzy = !m.Fuzzy
@@ -119,6 +123,10 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			case "enter":
 				if s, ok := m.currentSnippet(); ok {
 					return m, copyToClipboard(s.Content)
+				}
+			case "y":
+				if s, ok := m.currentSnippet(); ok {
+					return m, copyPathToClipboard(s.Path)
 				}
 			case "E":
 				if s, ok := m.currentSnippet(); ok {
@@ -171,6 +179,14 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		} else {
 			// In modal states
 			switch m.State {
+			case StateHelp:
+				// Any key closes help modal
+				switch msg.String() {
+				case "esc", "q", "?":
+					m.State = StateHome
+					return m, nil
+				}
+				return m, nil
 			case StateCreate, StateEdit:
 				switch msg.String() {
 				case "esc":
@@ -248,17 +264,26 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		const paneExtraX = 4 // 2 border + 2 padding
 		const paneExtraY = 2 // 2 border
 		availableContentW := contentWidth - gap - 2*paneExtraX
-		if availableContentW < 10 {
-			availableContentW = 10
+		if availableContentW < 20 {
+			availableContentW = 20
 		}
+
+		// Calculate proportional widths, ensuring they respect available space
 		sbContentW := availableContentW / 3
-		if sbContentW < 10 {
-			sbContentW = 10
-		}
 		pvContentW := availableContentW - sbContentW
-		if pvContentW < 10 {
-			pvContentW = 10
+
+		// Apply minimum widths only if they fit within available space
+		const minSidebarW = 8
+		const minPreviewW = 8
+		if sbContentW < minSidebarW && availableContentW >= minSidebarW+minPreviewW {
+			sbContentW = minSidebarW
+			pvContentW = availableContentW - sbContentW
 		}
+		if pvContentW < minPreviewW && availableContentW >= minSidebarW+minPreviewW {
+			pvContentW = minPreviewW
+			sbContentW = availableContentW - pvContentW
+		}
+
 		paneContentH := bodyHeight - paneExtraY
 		if paneContentH < 1 {
 			paneContentH = 1
@@ -303,7 +328,12 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.SearchInput, sc = m.SearchInput.Update(msg)
 		// Always reflect current input into query and apply filter
 		m.applyFilter(m.SearchInput.Value())
-		cmd = tea.Batch(lc, sc)
+		// Update viewport for scrolling (when not in search mode)
+		var vc tea.Cmd
+		if !m.SearchActive {
+			m.Preview, vc = m.Preview.Update(msg)
+		}
+		cmd = tea.Batch(lc, sc, vc)
 	case StateCreate, StateEdit:
 		// Update only focused input plus textarea if focused
 		switch m.modalFocus {

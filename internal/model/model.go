@@ -22,6 +22,7 @@ type AppState int
 const (
 	StateWelcome AppState = iota
 	StateHome
+	StateHelp
 	StateCreate
 	StateEdit
 	StateConfirmDelete
@@ -339,6 +340,13 @@ func copyToClipboard(content string) tea.Cmd {
 	return func() tea.Msg {
 		_ = clipboard.WriteAll(content)
 		return statusMsg("copied to clipboard")
+	}
+}
+
+func copyPathToClipboard(path string) tea.Cmd {
+	return func() tea.Msg {
+		_ = clipboard.WriteAll(path)
+		return statusMsg("path copied to clipboard")
 	}
 }
 

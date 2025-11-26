@@ -49,7 +49,7 @@ func (m Model) View() string {
 // Welcome screen with centered ASCII art and call-to-action
 func (m Model) viewWelcome() string {
 	// Style the ASCII art in orange and supporting text using theme accents.
-	titleStyle := ui.Theme.Title.Foreground(lipgloss.Color("#FFA657"))
+	titleStyle := ui.Theme.Title.Foreground(lipgloss.Color("#FF8700"))
 	asciiTitleStyled := titleStyle.Render(asciiTitle)
 	subtitleStyled := ui.Theme.Status.Render("SNIPSTER")
 	ctaStyled := ui.Theme.Footer.Render("Press any key to open your library")
